@@ -33,8 +33,8 @@ jobs:
           key: ${{ secrets.EC2_SSH_KEY }}
           script: |
             set -euo pipefail
-            cd ./codebases/message_server
-            docker build --pull -t message_server: latest.
+            cd ~/message-server
+            docker build --pull -t message_server:latest .
             docker stop message_server || true
             docker rm message_server || true
             docker image prune -f || true
@@ -47,4 +47,4 @@ jobs:
               -e POSTGRES_PASSWORD='${{ secrets.POSTGRES_PASSWORD }}' \
               -e POSTGRES_HOST='${{ secrets.POSTGRES_HOST }}' \
               -e POSTGRES_DB='postgres' \
-              message-server: latest
+              message_server: latest

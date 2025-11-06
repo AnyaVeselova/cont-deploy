@@ -33,13 +33,13 @@ jobs:
           key: ${{ secrets.EC2_SSH_KEY }}
           script: |
             set -euo pipefail
-            cd ~/message-server
-            docker build --pull -t message-server: latest.
-            docker stop message-server || true
-            docker rm message-server || true
+            cd ~/message_server
+            docker build --pull -t message_server: latest.
+            docker stop message_server || true
+            docker rm message_server || true
             docker image prune -f || true
             docker run -d \
-              --name message-server \
+              --name message_server \
               --restart unless-stopped \
               -p 5002:5002 \
               -e APP_ENV=PRODUCTION \

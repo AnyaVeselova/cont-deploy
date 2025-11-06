@@ -37,11 +37,12 @@ jobs:
             docker build --pull -t message_server:latest .
             docker stop message_server || true
             docker rm message_server || true
+            docker ps -a | grep message_server | awk '{print $1}' | xargs docker rm -f || true
             docker image prune -f || true
             docker run -d \
               --name message_server \
               --restart unless-stopped \
-              -p 5002:5002 \
+              -p 5004:5004 \
               -e APP_ENV=PRODUCTION \
               -e POSTGRES_USER='${{ secrets.POSTGRES_USER }}' \
               -e POSTGRES_PASSWORD='${{ secrets.POSTGRES_PASSWORD }}' \

@@ -1,13 +1,24 @@
 name: Deploy to EC2
 
 on:
-  push:
-    branches: [ main ]
+  workflow_run:
+    workflows: ["Continuous Integration"]
+    types: 
+      - completed
 
 jobs:
-  build-and-deploy:
+  check_ci_status:
     runs-on: ubuntu-latest
-    # "environment" must match the name of your GitHub environment
+    # This condition ensures this job only runs if the CI workflow concluded successfully
+    if: ${{ github.event.workflow_run.conclusion == 'success' }}
+    steps:
+      - name: CI Success Check
+        run: echo "CI tests passed, proceeding to deployment."
+
+
+  build-and-deploy:
+    needs: check_ci_status 
+    runs-on: ubuntu-latest
     environment: prod
 
     steps:

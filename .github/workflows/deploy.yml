@@ -33,7 +33,7 @@ jobs:
           key: ${{ secrets.EC2_SSH_KEY }}
           script: |
             set -euo pipefail
-            cd ~/message_server
+            cd ./codebases/message_server
             docker build --pull -t message_server: latest.
             docker stop message_server || true
             docker rm message_server || true
